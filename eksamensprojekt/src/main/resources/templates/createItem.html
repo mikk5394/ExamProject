@@ -4,7 +4,7 @@
     <title>Add new item</title>
 </head>
 <body>
-<form th:action="@{createItem}" method="POST">
+<form th:action="@{/createItem}" method="POST">
 
     <input type="hidden" th:field="${item.id}" /> <br />
     Name: <input th:field="${item.name}" /> <br />
@@ -15,6 +15,7 @@
     Quantity: <input th:field="${item.quantity}" /> <br />
 
     <button type="submit" value="Send">Save item</button>
+
 
     </form>
 </body>

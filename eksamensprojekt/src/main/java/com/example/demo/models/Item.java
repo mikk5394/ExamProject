@@ -11,9 +11,11 @@ public class Item {
     private int quantity;
 
 
-    public Item(){}
+    public Item(int anInt, String string, String rsString, String s, String string1, int rsInt){}
 
-    public Item(int id, String name, String description, int price, String dimensions, String type, int quantity){
+    public Item(){};
+
+    public Item(int id, String name, String description, double price, String dimensions, String type, int quantity){
         this.id = id;
         this.name = name;
         this.description = description;
@@ -24,10 +26,7 @@ public class Item {
     }
 
 
-
     // getters og setters
-
-
     public int getId() {
         return id;
     }
@@ -52,11 +51,11 @@ public class Item {
         this.description = description;
     }
 
-    public String getDimentions() {
+    public String getDimensions() {
         return dimensions;
     }
 
-    public void setDimentions(String dimensions) {
+    public void setDimensions(String dimensions) {
         this.dimensions = dimensions;
     }
 
