@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Redigér vare</title>
+</head>
+<body>
+<form th:action="@{editItem}" method="POST">
+
+    <input type="hidden" th:field="${item.id}" /> <br />
+    Navn: <input th:field="${item.navn}" /> <br />
+    Beskrivelse: <input th:field="${item.beskrivelse}" /> <br />
+    Pris: <input th:field="${item.pris}" /> <br />
+    Mål: <input th:field="${item.mol}" /> <br />
+    Type: <input th:field="${item.type}" /> <br />
+    Antal: <input th:field="${item.antal}" /> <br />
+
+    <button type="submit" value="Send">Gem vare</button>
+
+</form>
+</body>
+</html>

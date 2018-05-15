@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Vare liste</title>
+    <style>
+        td, th {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+        <tr>
+            <th>Vare ID: </th>
+            <th>Vare Navn:</th>
+            <th>Vare Beskrivelse:</th>
+            <th>Vare Mol:</th>
+            <th>Vare Pris:</th>
+            <th>Vare Type:</th>
+            <th>Vare Antal:</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        </tr>
+
+        <tr th:each="vare: ${vare}">
+            <td th:text="${vare.id}"></td>
+            <td th:text="${vare.navn}"></td>
+            <td th:text="${vare.beskrivelse}"></td>
+            <td th:text="${vare.mol}"></td>
+            <td th:text="${vare.pris}"></td>
+            <td th:text="${vare.type}"></td>
+            <td th:text="${vare.antal}"></td>
+            <td>
+                <a th:href="@{'editItem?id=' + ${vare.id}}">
+                    <button>Redigér</button>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="createItem">
+        <button>Opret</button>
+    </a>
+
+</body>
+</html>
