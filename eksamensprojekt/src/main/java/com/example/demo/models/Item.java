@@ -3,23 +3,23 @@ package com.example.demo.models;
 public class Item {
 
     private int id;
+    private String name;
     private double price;
     private String description;
     private String dimensions;
-    private String name;
     private String type;
     private int quantity;
 
 
-    public Item(int anInt, String string, String rsString, String s, String string1, int rsInt){}
+    public Item(int anInt, String string, double aDouble, String s, String rsString, int rsInt){};
 
     public Item(){};
 
-    public Item(int id, String name, String description, double price, String dimensions, String type, int quantity){
+    public Item(int id, String name, double price, String description, String dimensions, String type, int quantity){
         this.id = id;
         this.name = name;
-        this.description = description;
         this.price = price;
+        this.description = description;
         this.dimensions = dimensions;
         this.type = type;
         this.quantity = quantity;

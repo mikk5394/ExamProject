@@ -14,9 +14,9 @@
         <tr>
             <th>Item ID: </th>
             <th>Item Name:</th>
+            <th>Item Price:</th>
             <th>Item Description:</th>
             <th>Item Dimensions:</th>
-            <th>Item Price:</th>
             <th>Item Type:</th>
             <th>Item Quantity:</th>
 
@@ -28,14 +28,17 @@
         <tr th:each="item: ${item}">
             <td th:text="${item.id}"></td>
             <td th:text="${item.name}"></td>
+            <td th:text="${item.price}"></td>
             <td th:text="${item.description}"></td>
             <td th:text="${item.dimensions}"></td>
-            <td th:text="${item.price}"></td>
             <td th:text="${item.type}"></td>
             <td th:text="${item.quantity}"></td>
             <td>
                 <a th:href="@{'editItem?id=' + ${item.id}}">
                     <button>Edit</button>
+                </a>
+                <a th:href="@{'measurements?id=' + ${item.id}}">
+                    <button>Select measurements</button>
                 </a>
             </td>
         </tr>

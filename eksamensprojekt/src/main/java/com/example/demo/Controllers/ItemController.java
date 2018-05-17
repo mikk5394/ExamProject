@@ -9,14 +9,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class ItemController {
 
-    private ArrayList<Item> itemList = new ArrayList<>();
-    private ArrayList<Item> reservationsList = new ArrayList<>();
+    //private List<Item> itemList = new ArrayList<>();
+    //private ArrayList<Item> reservationsList = new ArrayList<>();
+
+
     @Autowired
-    private Db database = new Db();
+    private Db database;
 
     /*
     @GetMapping("/")
@@ -33,41 +36,28 @@ public class ItemController {
     }
     */
 
-
     @RequestMapping("item/details")
     public String home(Model model){
+
         model.addAttribute("item", database.get(1));
+
         return "item/details";
     }
 
     @GetMapping("/item")
     public String Item (Model model) {
-        //model.addAttribute("item", itemList);
+
         model.addAttribute("item", database.getItems());
 
         return "item";
-    }
 
-    /*
-    @GetMapping("/createItem")
-    public String createItem(Model model){
-        model.addAttribute("item", new Item());
-        return "createItem";
     }
-    */
-    /*
-    @PostMapping("/createItem")
-    public String createItem(@ModelAttribute Item item) {
-        item.setId(itemList.size()+1);
-        itemList.add(item);
-        return "redirect:/Item";
-    }
-    */
 
     @RequestMapping(value = "/createItem", method = RequestMethod.GET)
     public String create(Model model)
     {
         model.addAttribute("item", new Item());
+
         return "createItem";
     }
 
@@ -75,18 +65,31 @@ public class ItemController {
     public String create(@ModelAttribute Item item)
     {
         database.create(item);
+
         return "redirect:/item";
     }
-
 
     @GetMapping("/editItem")
     public String editItem(@RequestParam(value = "id", defaultValue = "1") int id, Model model) {
-        model.addAttribute("item", itemList.get(id-1));
+
+        model.addAttribute("item", database.getItems().get(id-1));
+
         return "editItem";
     }
+
     @PostMapping("/editItem")
     public String editItem(@ModelAttribute Item item){
-        itemList.set(item.getId()-1, item);
+
+        database.editItem(item);
+
         return "redirect:/item";
     }
+
+    @GetMapping("/measurements")
+    public String glassMeasurements(@ModelAttribute Item item){
+
+        return "measurements";
+    }
+
+
 }
