@@ -1,11 +1,13 @@
 package com.example.demo.models.Repository;
 
+import com.example.demo.models.Employee;
 import com.example.demo.models.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +22,6 @@ public class Db {
         String sql = "SELECT * FROM Item WHERE itemId = " + id;
 
         SqlRowSet rs = jdbc.queryForRowSet(sql);
-
         rs.next();
 
         Item item = new Item(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4) +
@@ -31,18 +32,15 @@ public class Db {
     }
 
     //hiver alle items op fra vores db og smider dem i en liste
-    public List<Item> getItems(){
+    public List<Item> getItems(String query){
 
         List<Item> itemList = new ArrayList<>();
 
-        String sql = "SELECT * FROM Item";
-
-        SqlRowSet rs = jdbc.queryForRowSet(sql);
-
-        while(rs.next()){
-            itemList.add(new Item(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4),
-                                  rs.getString(5), rs.getString(6), rs.getInt(7)));
-        }
+        SqlRowSet rs = jdbc.queryForRowSet(query);
+            while (rs.next()) {
+                itemList.add(new Item(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4),
+                        rs.getString(5), rs.getString(6), rs.getInt(7)));
+            }
 
         return itemList;
 
@@ -60,7 +58,7 @@ public class Db {
                              i.getType() + "', " +
                              i.getQuantity() + ")";
 
-        int rowsAffected = jdbc.update(sql);
+        jdbc.update(sql);
         //System.out.println("Rows affected: " + rowsAffected);
     }
 
@@ -77,8 +75,21 @@ public class Db {
                      "', itemQuantity = " + i.getQuantity() + " " +
                      "WHERE itemId = " + i.getId() + ";";
 
-        int rowsAffected = jdbc.update(sql);
+        jdbc.update(sql);
         //System.out.println("Rows affected: " + rowsAffected);
         }
 
+    public List<Employee> getEmployees(String query){
+
+        List<Employee> employeeList = new ArrayList<>();
+
+        SqlRowSet rs = jdbc.queryForRowSet(query);
+        // int employeeId, String name, String mail, String phonenumber, String username, String password
+        while(rs.next()){
+            employeeList.add(new Employee(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                             rs.getString(5), rs.getString(6)));
+        }
+
+        return employeeList;
+     }
 }

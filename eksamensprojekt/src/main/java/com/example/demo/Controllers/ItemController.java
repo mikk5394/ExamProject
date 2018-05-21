@@ -8,15 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Controller
 public class ItemController {
 
     //private List<Item> itemList = new ArrayList<>();
     //private ArrayList<Item> reservationsList = new ArrayList<>();
-
 
     @Autowired
     private Db database;
@@ -47,14 +43,13 @@ public class ItemController {
     @GetMapping("/item")
     public String Item (Model model) {
 
-        model.addAttribute("item", database.getItems());
+        model.addAttribute("item", database.getItems("SELECT * FROM Item;"));
 
         return "item";
-
     }
 
     @RequestMapping(value = "/createItem", method = RequestMethod.GET)
-    public String create(Model model)
+    public String createItem(Model model)
     {
         model.addAttribute("item", new Item());
 
@@ -62,7 +57,7 @@ public class ItemController {
     }
 
     @RequestMapping(value = "/createItem", method = RequestMethod.POST)
-    public String create(@ModelAttribute Item item)
+    public String createItem(@ModelAttribute Item item)
     {
         database.create(item);
 
@@ -72,7 +67,7 @@ public class ItemController {
     @GetMapping("/editItem")
     public String editItem(@RequestParam(value = "id", defaultValue = "1") int id, Model model) {
 
-        model.addAttribute("item", database.getItems().get(id-1));
+        model.addAttribute("item", database.getItems("SELECT * FROM Item;").get(id-1));
 
         return "editItem";
     }
@@ -85,11 +80,29 @@ public class ItemController {
         return "redirect:/item";
     }
 
-    @GetMapping("/measurements")
-    public String glassMeasurements(@ModelAttribute Item item){
-
-        return "measurements";
+    @GetMapping("/materialList")
+    public String materialList(@RequestParam(value= "id", defaultValue = "1") int id, Model model) {
+        if(id == 1) {
+            model.addAttribute("item", database.getItems("SELECT * FROM Item WHERE itemDimensions = '0-700' AND NOT itemType = 'Glas';"));
+        } else if (id == 2) {
+            model.addAttribute("item", database.getItems("SELECT * FROM Item WHERE itemDimensions = '701-900' AND NOT itemType = 'Glas';"));
+        } else {
+            model.addAttribute("item", database.getItems("SELECT * FROM Item WHERE itemDimensions = '901+' AND NOT itemType = 'Glas';"));
+        }
+      
+        return "materialList";
     }
+
+    @GetMapping("/employeeList")
+    public String Employee (Model model) {
+
+        model.addAttribute("employee", database.getEmployees("SELECT * FROM Employee;"));
+        System.out.println(database.getEmployees("SELECT * FROM Employee;"));
+
+        return "employee";
+
+    }
+
 
 
 }

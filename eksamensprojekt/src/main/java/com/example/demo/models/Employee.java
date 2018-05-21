@@ -2,13 +2,18 @@ package com.example.demo.models;
 
 public class Employee extends User {
 
+    private int employeeId;
     private String username;
     private String password;
 
-    public Employee(String username, String password, String name, String mail, String phonenumber){
+    public Employee(){};
+
+    public Employee(int employeeId, String name, String mail, String phonenumber, String username, String password){
 
         super(name,mail,phonenumber);
+        this.employeeId = employeeId;
         this.username = username;
         this.password = password;
     }
+
 }
