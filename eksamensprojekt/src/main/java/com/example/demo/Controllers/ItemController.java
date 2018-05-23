@@ -17,35 +17,13 @@ public class ItemController {
     @Autowired
     private Db database;
 
-    /*
-    @GetMapping("/")
-        public String index(){
-        //Hard-code varer
-        // int id, String navn, String beskrivelse, int pris, String mål, String type, int antal
-        if(itemList.size() == 0) {
-            itemList.add(new Item(1, "Hans1", "Narkoman", 5000, "Lang", "Lort", 10));
-            itemList.add(new Item(2, "Hans2", "Narkoman", 5000, "Lang", "Lort", 10));
-            itemList.add(new Item(3, "Hans3", "Narkoman", 5000, "Lang", "Lort", 10));
-            itemList.add(new Item(4, "Hans4", "Narkoman", 5000, "Lang", "Lort", 10));
-        }
-        return "index";
-    }
-    */
 
-    @RequestMapping("item/details")
-    public String home(Model model){
-
-        model.addAttribute("item", database.get(1));
-
-        return "item/details";
-    }
-
-    @GetMapping("/item")
+    @GetMapping("/items")
     public String Item (Model model) {
 
-        model.addAttribute("item", database.getItems("SELECT * FROM Item;"));
+        model.addAttribute("item", database.getItems());
 
-        return "item";
+        return "items";
     }
 
     @RequestMapping(value = "/createItem", method = RequestMethod.GET)
@@ -61,13 +39,13 @@ public class ItemController {
     {
         database.create(item);
 
-        return "redirect:/item";
+        return "redirect:/items";
     }
 
     @GetMapping("/editItem")
     public String editItem(@RequestParam(value = "id", defaultValue = "1") int id, Model model) {
 
-        model.addAttribute("item", database.getItems("SELECT * FROM Item;").get(id-1));
+        model.addAttribute("item", database.getItems().get(id-1));
 
         return "editItem";
     }
@@ -77,32 +55,32 @@ public class ItemController {
 
         database.editItem(item);
 
-        return "redirect:/item";
+        return "redirect:/items";
     }
 
     @GetMapping("/materialList")
-    public String materialList(@RequestParam(value= "id", defaultValue = "1") int id, Model model) {
+    public String materialList(@RequestParam int id, Model model) {
         if(id == 1) {
-            model.addAttribute("item", database.getItems("SELECT * FROM Item WHERE itemDimensions = '0-700' AND NOT itemType = 'Glas';"));
+            model.addAttribute("item", database.getMaterialList("0-700"));
+
         } else if (id == 2) {
-            model.addAttribute("item", database.getItems("SELECT * FROM Item WHERE itemDimensions = '701-900' AND NOT itemType = 'Glas';"));
+            model.addAttribute("item", database.getMaterialList("701-900"));
+
         } else {
-            model.addAttribute("item", database.getItems("SELECT * FROM Item WHERE itemDimensions = '901+' AND NOT itemType = 'Glas';"));
+            model.addAttribute("item", database.getMaterialList("901+"));
+
         }
-      
+
         return "materialList";
     }
 
     @GetMapping("/employeeList")
     public String Employee (Model model) {
 
-        model.addAttribute("employee", database.getEmployees("SELECT * FROM Employee;"));
-        System.out.println(database.getEmployees("SELECT * FROM Employee;"));
+        model.addAttribute("employee", database.getEmployees());
 
-        return "employee";
+        return "employees";
 
     }
-
-
 
 }

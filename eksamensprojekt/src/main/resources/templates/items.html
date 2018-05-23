@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Itemlist</title>
+    <style>
+        td, th {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+        <tr>
+            <th>Item ID: </th>
+            <th>Item Name:</th>
+            <th>Item Price:</th>
+            <th>Item Description:</th>
+            <th>Item Dimensions:</th>
+            <th>Item Type:</th>
+            <th>Item Quantity:</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        </tr>
+
+        <tr th:each="item: ${item}">
+            <td th:text="${item.id}"></td>
+            <td th:text="${item.name}"></td>
+            <td th:text="${item.price}"></td>
+            <td th:text="${item.description}"></td>
+            <div th:if="${item.type == 'Glas'}">
+                <td><select th:id = "id">
+                    <option disabled selected value>select dimensions</option>
+                    <option value="1">0-700</option>
+                    <option value="2">700-900</option>
+                    <option value="3">901+</option>
+                </select>
+                </td>
+            </div>
+            <div th:if="${item.type != 'Glas'}">
+                <td th:text="${item.dimensions}"></td>
+            </div>
+            <td th:text="${item.type}"></td>
+            <td th:text="${item.quantity}"></td>
+            <td>
+                <a th:href="@{'editItem?id=' + ${item.id}}">
+                    <button>Edit</button>
+                </a>
+                <div th:if="${item.type == 'Glas'}">
+                <a th:href="@{'materialList?id=' + ${item.id}}">
+                    <button>Material list</button>
+                </a>
+                </div>
+                <a th:href="@{'buy?id=' + ${item.id}}">
+                    <button>Buy</button>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="createItem">
+        <button>Create</button>
+    </a>
+
+</body>
+</html>

@@ -1,6 +1,5 @@
 package com.example.demo.models;
 
-//Vores inheritance klasse :))
 public class User {
 
     private String name;

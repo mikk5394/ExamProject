@@ -17,7 +17,8 @@ public class Db {
     @Autowired
     private JdbcTemplate jdbc;
 
-    //Vælger et specifik item fra vores db
+    //Vælger et specifik item fra vores database ud fra et givent id og laver det til et objekt.
+    //Objektet bliver til sidst returneret.
     public Item get(int id){
         String sql = "SELECT * FROM Item WHERE itemId = " + id;
 
@@ -31,10 +32,13 @@ public class Db {
 
     }
 
-    //hiver alle items op fra vores db og smider dem i en liste
-    public List<Item> getItems(String query){
+    //Hiver alle items op fra databasen. Hvert item bliver lavet til et objekt
+    //og gemt i en arraylist og den arraylist bliver derefter returneret.
+    public List<Item> getItems(){
 
         List<Item> itemList = new ArrayList<>();
+
+        String query = "SELECT * FROM Item;";
 
         SqlRowSet rs = jdbc.queryForRowSet(query);
             while (rs.next()) {
@@ -46,48 +50,69 @@ public class Db {
 
     }
 
-    //laver et item og smider det i vores db.
-    public void create (Item i){
 
-        String sql = "INSERT INTO Item(itemName, itemPrice, itemDescription, itemDimensions, " +
-                      "itemType, itemQuantity)" + "VALUES" +
-                      "('" + i.getName() + "', " +
-                             i.getPrice() + ", '" +
-                             i.getDescription() + "', '" +
-                             i.getDimensions() + "', '" +
-                             i.getType() + "', " +
-                             i.getQuantity() + ")";
+    public List<Item> getMaterialList(String dimensionSize){
 
-        jdbc.update(sql);
-        //System.out.println("Rows affected: " + rowsAffected);
+        List<Item> materialList = new ArrayList<>();
+
+        String query = "SELECT * FROM Item WHERE itemDimensions = '" + dimensionSize +"' AND NOT itemType = 'Glas';";
+
+        SqlRowSet rs = jdbc.queryForRowSet(query);
+        while (rs.next()) {
+            materialList.add(new Item(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getString(4),
+                    rs.getString(5), rs.getString(6), rs.getInt(7)));
+        }
+
+        return materialList;
     }
 
-    //Redigerer valgte vare i databasen gennem vores hjemmeside.
+
+
+    //Nedenstående metode tager et item object som parameter og sender dataen ned i vores database.
+    public void create (Item i){
+
+
+            String sql = "INSERT INTO Item(itemName, itemPrice, itemDescription, itemDimensions, " +
+                    "itemType, itemQuantity)" + "VALUES" +
+                    "('" + i.getName() + "', " +
+                    i.getPrice() + ", '" +
+                    i.getDescription() + "', '" +
+                    i.getDimensions() + "', '" +
+                    i.getType() + "', " +
+                    i.getQuantity() + ")";
+
+            jdbc.update(sql);
+    }
+
+    //Redigerer en enkelt vare og opdatere det i vores database.
     public void editItem(Item i){
 
 
-        String sql = "UPDATE Item" +
-                     " SET itemName = '" + i.getName() +
-                     "', itemPrice = " + i.getPrice() +
-                     ", itemDescription = '" + i.getDescription() +
-                     "', itemDimensions = '" + i.getDimensions() +
-                     "', itemType = '" + i.getType() +
-                     "', itemQuantity = " + i.getQuantity() + " " +
-                     "WHERE itemId = " + i.getId() + ";";
+            String sql = "UPDATE Item" +
+                    " SET itemName = '" + i.getName() +
+                    "', itemPrice = " + i.getPrice() +
+                    ", itemDescription = '" + i.getDescription() +
+                    "', itemDimensions = '" + i.getDimensions() +
+                    "', itemType = '" + i.getType() +
+                    "', itemQuantity = " + i.getQuantity() + " " +
+                    "WHERE itemId = " + i.getId() + ";";
 
-        jdbc.update(sql);
-        //System.out.println("Rows affected: " + rowsAffected);
+            jdbc.update(sql);
+
         }
 
-    public List<Employee> getEmployees(String query){
+    //Identisk med vore getItems metode. I det her tilfælde er det så bare employees den henter (uden deres password og
+    // username da denne metode kun skal bruges til at kunne se en liste over de ansatte hos Interglas).
+    public List<Employee> getEmployees(){
 
         List<Employee> employeeList = new ArrayList<>();
 
+        String query = "SELECT employeeId, employeeName, employeeMail, employeePhonenumber FROM Employee;";
+
         SqlRowSet rs = jdbc.queryForRowSet(query);
-        // int employeeId, String name, String mail, String phonenumber, String username, String password
+
         while(rs.next()){
-            employeeList.add(new Employee(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
-                             rs.getString(5), rs.getString(6)));
+            employeeList.add(new Employee(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4)));
         }
 
         return employeeList;
