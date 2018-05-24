@@ -10,13 +10,14 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-
+//Alle 4 har været indenover denne klasse
 @Repository
 public class Db {
 
     @Autowired
     private JdbcTemplate jdbc;
 
+    //Sebastian Duedahl
     //Vælger et specifik item fra vores database ud fra et givent id og laver det til et objekt.
     //Objektet bliver til sidst returneret.
     public Item get(int id){
@@ -32,6 +33,7 @@ public class Db {
 
     }
 
+    //Mikkel Olsen
     //Hiver alle items op fra databasen. Hvert item bliver lavet til et objekt
     //og gemt i en arraylist og den arraylist bliver derefter returneret.
     public List<Item> getItems(){
@@ -50,7 +52,8 @@ public class Db {
 
     }
 
-
+    //Tino Andreasen
+    //Nedenstående metode hiver alle ikke-glas items op fra items ud fra et angivet dimensionSize.
     public List<Item> getMaterialList(String dimensionSize){
 
         List<Item> materialList = new ArrayList<>();
@@ -67,7 +70,7 @@ public class Db {
     }
 
 
-
+    //Micki Høeg
     //Nedenstående metode tager et item object som parameter og sender dataen ned i vores database.
     public void create (Item i){
 
@@ -84,6 +87,7 @@ public class Db {
             jdbc.update(sql);
     }
 
+    //Sebastian Duedahl
     //Redigerer en enkelt vare og opdatere det i vores database.
     public void editItem(Item i){
 
@@ -101,6 +105,7 @@ public class Db {
 
         }
 
+    //Mikkel Olsen
     //Identisk med vore getItems metode. I det her tilfælde er det så bare employees den henter (uden deres password og
     // username da denne metode kun skal bruges til at kunne se en liste over de ansatte hos Interglas).
     public List<Employee> getEmployees(){

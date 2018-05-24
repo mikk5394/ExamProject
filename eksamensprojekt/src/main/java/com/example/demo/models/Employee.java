@@ -1,5 +1,6 @@
 package com.example.demo.models;
 
+//Micki Høeg, Tino Andreasen
 public class Employee extends User {
 
     private int employeeId;

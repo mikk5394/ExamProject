@@ -1,5 +1,6 @@
 package com.example.demo.models;
 
+//Micki Høeg, Tino Andreasen
 public class User {
 
     private String name;

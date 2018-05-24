@@ -1,5 +1,6 @@
 package com.example.demo.models;
 
+//Mikkel Olsen, Sebastian Duedahl
 public class Customer extends User {
 
     private String address;
